@@ -1,15 +1,25 @@
-import { StyleSheet, SafeAreaView, Text } from "react-native";
+import { Pressable, Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
 import { useSpotifyAuth } from "./utils";
 import { Themes } from "./assets/Themes";
+import Functional from "./app/components/Functional";
+import Song_list from "./app/components/Song_list";
 
 export default function App() {
   // Pass in true to useSpotifyAuth to use the album ID (in env.js) instead of top tracks
-  const { token, tracks, getSpotifyAuth } = useSpotifyAuth();
+  const { token, tracks, getSpotifyAuth } = useSpotifyAuth(true);
+
+  let contentDisplayed = null;
+
+  if (token) {
+    contentDisplayed = <Song_list tracks={tracks}/>
+  } else {
+    contentDisplayed = <Functional pressMe={getSpotifyAuth}></Functional>
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* TODO: Your code goes here */}
-      <Text style={{ color: "white" }}>Welcome to Assignment 3 - Spotify!</Text>
+      {contentDisplayed}
     </SafeAreaView>
   );
 }
