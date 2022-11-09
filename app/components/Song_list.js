@@ -13,6 +13,8 @@ export default function Song_list ({tracks}) {
           artist={item.artists[0].name}
           nameAlbum={item.album.name}
           time={item.duration_ms}
+          external_urls={item.external_urls.spotify}
+          preview_url={item.preview_url}
           />
     }
 
