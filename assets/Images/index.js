@@ -10,4 +10,9 @@ export default Images = {
   temp_profile: require('./Oval.png'),
   dog: require('./Dog.png'),
   cat: require('./Rectangle.png'),
+  check: require('./Check-Button.png'),
+  flat: require('./Flat.png'),
+  cool: require('./Cool.png'),
+  addcheckin: require('./Add-Check-In.png'),
+  checkindefault: require('./checkinmain.png'),
 };
