@@ -1,4 +1,4 @@
-import Images from '../Images/images';
+import Images from '../Images';
 import Themes from './themes';
 
 export { Images, Themes };
