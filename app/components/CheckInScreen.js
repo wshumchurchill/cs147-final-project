@@ -13,6 +13,11 @@ import CircleButton from './CircleButton';
 import { supabase } from '../../supabase';
 import * as Location from 'expo-location';
 import Device from 'expo-device';
+import CheckInTypeList from './CheckInTypeList';
+import CheckInTypePicker from './CheckInTypePicker';
+import CheckInTypeSticker from './CheckInTypeSticker';
+import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator } from 'react-native-web';
 
 const emojiNumberMap = {
     22: 'sad',
@@ -22,28 +27,46 @@ const emojiNumberMap = {
     24: 'angry',
     28: 'check'
 }
+const typeNumberMap = {
+    54: require('../../assets/Images/TriviaCorrect.png'),
+    55: require('../../assets/Images/KarsonPhoto.png'),
+    56: require('../../assets/Images/checkinmain.png')
+}
+const typeImageMap ={
+    54: 'activitycheckin',
+    55: 'photocheckin',
+    56: 'defaultcheckin',
+}
 
 export default function CheckInScreen({ navigation}) {
 
     // for emoji picker
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [showAppOptions, setShowAppOptions] = useState(false);
+    // const [showAppOptions, setShowAppOptions] = useState(false);
     const [pickedEmoji, setPickedEmoji] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
+    // const [selectedImage, setSelectedImage] = useState(null);
 
     const onAddSticker = (params) => {
         setIsModalVisible(true);
     };
-
-    
     const onModalClose = () => {
         setIsModalVisible(false);
     };
 
+    // for Check In Type Picker
+    const [isTypeModalVisible, setIsTypeModalVisible] = useState(false);
+    const [pickedType, setPickedType] = useState(null);
+    
+    const onChooseType = (params) => {
+        setIsTypeModalVisible(true);
+    }
+    const finishChooseType = () => {
+        setIsTypeModalVisible(false);
+    }
+
     // for location switch
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
 
     // for group dropdown
     const [groups, setGroups] = useState([]);
@@ -70,26 +93,36 @@ export default function CheckInScreen({ navigation}) {
         }
     ;
 
-    const Emojis = 
-        {
-          anger: Images.Anger,
-          sad: Images.sad,
-          cool: Images.cool,
-          flat: Images.flat,
-          smile: Images.Smile,
+    // const Emojis = 
+    //     {
+    //       anger: Images.Anger,
+    //       sad: Images.sad,
+    //       cool: Images.cool,
+    //       flat: Images.flat,
+    //       smile: Images.Smile,
           
-        }
-    ;
+    //     }
+    // ;
+    
 
     const uploadData = async () => {
-        const {error} = await supabase.from('check-ins').insert({id: Math.floor(Math.random() * 10000), image: 'lake_louise', user: 'Karson', mood: emojiNumberMap[pickedEmoji], time: '10:22', location: 'Lake Louise'})
-        console.log('hello')
+        const {error} = await supabase.from('check-ins').insert({id: Math.floor(Math.random() * 10000), 
+            image: (pickedType !== null ? typeImageMap[pickedType] : typeImageMap[56]), 
+            user: 'Karson', mood: emojiNumberMap[pickedEmoji], time: '10:22 PM', 
+            location: (isEnabled ? 'Stanford, California': '')})
+        console.log()
+        console.log(pickedType)
         navigation.navigate('Home')
     }
 
         // create render Image for checkindefault, photocheckin, and activities,
     return (
         <SafeAreaView style={styles.container}>
+
+            <CheckInTypePicker isVisible={isTypeModalVisible} onClose={finishChooseType}>
+                <CheckInTypeList onSelect={setPickedType} onCloseModal={finishChooseType} />
+            </CheckInTypePicker>
+            <StatusBar style="auto" />
             
             <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
                 <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
@@ -103,7 +136,9 @@ export default function CheckInScreen({ navigation}) {
                 </View>
             </LinearGradient>
             
-            <Image style={styles.CheckinDefault} source={Images.checkindefault} />
+            {pickedType !== null ? <CheckInTypeSticker stickerSource={typeNumberMap[pickedType]} stickerStyle={styles.CheckinDefault}/> : <Image style={styles.CheckinDefault} source={Images.checkindefault} />}
+            {/* <Image style={styles.CheckinDefault} source={Images.checkindefault} /> */}
+            
             
             <SelectDropdown
                         data={groups}
@@ -129,7 +164,7 @@ export default function CheckInScreen({ navigation}) {
                     />
                     
 
-            <Pressable onPress={() => navigation.navigate('ProfileTab', {Profiles: Profile})} style={styles.PressableAdd}>
+            <Pressable onPress={onChooseType} style={styles.PressableAdd}>
                 <Image style={styles.AddImage} source={Images.addcheckin} />
             </Pressable>
 
@@ -290,6 +325,7 @@ const styles = StyleSheet.create({
 
     },
     CheckImage: {
+        
     },
     TitleContainer: {
         position: 'absolute',

@@ -15,4 +15,7 @@ export default Images = {
   cool: require('./Cool.png'),
   addcheckin: require('./Add-Check-In.png'),
   checkindefault: require('./checkinmain.png'),
+  karsonphoto: require('./KarsonPhoto.png'),
+  triviacorrect: require('./TriviaCorrect.png'),
+  
 };

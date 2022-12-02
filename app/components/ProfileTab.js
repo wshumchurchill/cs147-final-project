@@ -11,6 +11,7 @@ export default function ProfileTab({ navigation, route }) {
             <AntDesign name="close" size={24} color="white" />
           </Pressable>
           <View style={styles.CheckInText}>
+            <Text style={styles.CheckInTitle}>{Profiles.name}</Text>
             <Text style={styles.CheckInTitle}>{Profiles.strongest1}</Text>
             <Text style={styles.CheckInDescription}>{Profiles.strongest2}</Text>
             <Text style={styles.CheckInDescription}>{Profiles.numofcheckins}</Text>

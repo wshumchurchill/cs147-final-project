@@ -1,11 +1,27 @@
 import { View, SafeAreaView, Text, Image, ImageBackground, StyleSheet, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import Images from '../../assets/Images';
 
 export default function DestinationsScreen({ navigation, route }) {
     const { CheckIn } = route.params;
 
+    const imageMap = {
+      san_francisco: Images.sanFrancisco,
+      lake_louise: Images.lakeLouise,
+      alesund: Images.alesund,
+      dog: Images.dog
+    }
+
+    const moodMap = {
+      sad: Images.sad,
+      smile: Images.Smile,
+      anger: Images.Anger,
+      check: Images.check,
+      flat: Images.flat
+    }
+
     return (
-    <ImageBackground source={CheckIn.image} style={styles.backgroundImage}>
+    <ImageBackground source={imageMap[CheckIn.image]} style={styles.backgroundImage}>
         <SafeAreaView style={styles.body}>
           <Pressable onPress={() => navigation.goBack()}>
             <AntDesign name="close" size={24} color="white" />
@@ -14,7 +30,7 @@ export default function DestinationsScreen({ navigation, route }) {
             <Text style={styles.CheckInTitle}>{CheckIn.user}</Text>
             <Text style={styles.CheckInDescription}>{CheckIn.time}</Text>
             <Text style={styles.CheckInDescription}>{CheckIn.location}</Text>
-            <Image style={styles.Mood} source={CheckIn.mood} />
+            <Image style={styles.Mood} source={moodMap[CheckIn.mood]} />
 
           </View>
         </SafeAreaView>

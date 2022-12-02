@@ -67,15 +67,19 @@ export default function FeedScreen({ navigation }) {
         san_francisco: Images.sanFrancisco,
         lake_louise: Images.lakeLouise,
         alesund: Images.alesund,
-        dog: Images.dog
+        dog: Images.dog,
+        activitycheckin: Images.triviacorrect,
+        photocheckin: Images.karsonphoto,
+        defaultcheckin: Images.checkindefault,
     }
 
     const moodMap = {
         sad: Images.sad,
         smile: Images.Smile,
-        anger: Images.Anger,
+        angry: Images.Anger,
         check: Images.check,
-        flat: Images.flat
+        flat: Images.flat,
+        cool: Images.cool,
     }
 
     const [groups, setGroups] = useState([]);
@@ -91,7 +95,7 @@ export default function FeedScreen({ navigation }) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const {data, error} = await supabase.from('check-ins').select()
+            const {data, error} = await supabase.from('check-ins').select().order('created_at',{ascending: false})
             console.log('data', data)
             setCheckIns(data)
         }
@@ -174,6 +178,7 @@ export default function FeedScreen({ navigation }) {
                     data={checkIns}
                     renderItem={renderCheckIn}
                     keyExtractor={(item) => item.id}
+                    
                 />
             </View>
             <View style={styles.FloatingButton}>
@@ -283,7 +288,7 @@ const styles = StyleSheet.create({
         // backgroundColor: 'blue'
     },
     CheckInContainer: {
-        width: 400,
+        width: 380,
         height: '35%',
         flex: 1,
         margin: 20,

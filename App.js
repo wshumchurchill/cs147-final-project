@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeStack from './app/components/HomeStack';
+import GroupStack from './app/components/GroupStack';
 import CheckInScreen from './app/components/CheckInScreen';
 import AppLoading from 'expo-app-loading';
 import {
@@ -69,11 +70,11 @@ export default function App() {
 
   const Tab = createBottomTabNavigator();
 
-  const GroupsTab = () => (
-    <View style={styles.container}>
-      <Text>Groups!</Text>
-    </View>
-  );
+  // const GroupsTab = () => (
+  //   <View style={styles.container}>
+  //     <Text>Groups!</Text>
+  //   </View>
+  // );
   
 
   // const CheckinTab = () => (
@@ -112,7 +113,7 @@ export default function App() {
         })}>
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="CheckInScreen" component={CheckInScreen} />
-        <Tab.Screen name="Groups" component={GroupsTab} />
+        <Tab.Screen name="Groups" component={GroupStack} />
         <Tab.Screen name="Profile" component={ProfileTab} initialParams={{Profiles:
         {
           id: 1,

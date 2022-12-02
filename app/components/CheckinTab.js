@@ -15,7 +15,7 @@ export default function CheckinTab({navigation, route}) {
                 headerShown: false
             }}>
             <Stack.Screen name="CheckInScreen" component={CheckInScreen} />
-            <Stack.Screen name="HomeStack" component={HomeStack} />
+            {/* <Stack.Screen name="HomeStack" component={HomeStack} /> */}
             
         </Stack.Navigator>
     );
