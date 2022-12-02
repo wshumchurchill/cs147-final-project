@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity, Switch } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import Images from '../../assets/Images';
@@ -10,22 +10,42 @@ import EmojiPicker from './EmojiPicker';
 import EmojiList from './EmojiList';
 import EmojiSticker from './EmojiSticker';
 import CircleButton from './CircleButton';
-import { StatusBar } from 'expo-status-bar';
+import { supabase } from '../../supabase';
+import * as Location from 'expo-location';
+import Device from 'expo-device';
+
+const emojiNumberMap = {
+    22: 'sad',
+    30: 'cool',
+    29: 'flat',
+    23: 'smile',
+    24: 'angry',
+    28: 'check'
+}
 
 export default function CheckInScreen({ navigation}) {
+
+    // for emoji picker
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showAppOptions, setShowAppOptions] = useState(false);
     const [pickedEmoji, setPickedEmoji] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const onAddSticker = () => {
+    const onAddSticker = (params) => {
         setIsModalVisible(true);
     };
+
     
-      const onModalClose = () => {
+    const onModalClose = () => {
         setIsModalVisible(false);
     };
 
+    // for location switch
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+
+    // for group dropdown
     const [groups, setGroups] = useState([]);
     useEffect(() => {
         setTimeout(() => {
@@ -60,18 +80,21 @@ export default function CheckInScreen({ navigation}) {
           
         }
     ;
-        // create stylesheet for optionContainers, optionRow,
+
+    const uploadData = async () => {
+        const {error} = await supabase.from('check-ins').insert({id: Math.floor(Math.random() * 10000), image: 'lake_louise', user: 'Karson', mood: emojiNumberMap[pickedEmoji], time: '10:22', location: 'Lake Louise'})
+        console.log('hello')
+        navigation.navigate('Home')
+    }
+
+        // create render Image for checkindefault, photocheckin, and activities,
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.optionsContainer}>
-                <View style={styles.optionsRow}>
-                    <CircleButton onPress={onAddSticker} />
-                </View>
-            </View>
+            
             <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
                 <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
             </EmojiPicker>
-            <StatusBar style="auto" />
+            
             <LinearGradient colors={['#D3FCFF', 'white']} style={styles.linearGradient}>
                 <View style={styles.TopContainer}>
                     <View style={styles.TitleContainer}>
@@ -112,20 +135,42 @@ export default function CheckInScreen({ navigation}) {
 
             
             <View style={styles.bottomContainer}>
-                <Text style={styles.CheckinText}>
-                    Karson is checking in @ 9:41 am
-                </Text>
+                <View style={styles.CheckinTextStyle}>
+                    <Text style={styles.CheckinText}>
+                        Karson is checking in @ 9:41 am
+                    </Text>
+                </View>
                 <View style={styles.emojiSelectionContainer}>
                     <Text style={styles.emojiContainerText}>
                         I'm feeling
                     </Text>
-                    
+                    <View style={styles.selector}>
+                        {pickedEmoji !== null ? <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> : <Image style={styles.CheckImage} source={Images.flat}/>}
+                        
+                        <CircleButton onPress={onAddSticker} />
+                    </View>
+                    <Text style={styles.emojiContainerText}>
+                        today
+                    </Text>
+                </View>
+                
+                <View style={styles.LocationSwitch}>
+                    <Text style={styles.LocationText}>
+                        {isEnabled ? 'Stanford, California': 'Add Location'}
+                    </Text>
 
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#037CFF" }}
+                        thumbColor={isEnabled ? "white" : "white"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
                 </View>
             </View>
             
             <View style={styles.FloatingButton}>
-                <Pressable onPress={() => navigation.navigate('CheckinTab', {Profiles: Profile})}>
+                <Pressable onPress={uploadData}>
                     <Image style={styles.CheckImage} source={Images.check} />
                 </Pressable>
             </View>
@@ -141,30 +186,64 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-        
+    },
+    LocationSwitch: {
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '80%',
+        borderWidth: 2,
+        padding: 8,
+        borderColor: '#007BC0',
+        borderRadius: 18,
+
+    },
+    CheckinTextStyle: {
+        width: '80%',
+    },
+    LocationText: {
+        fontSize: 20,
+        fontFamily: 'Poppins_400Regular',
     },
     text: {
         textAlign: 'center',
-        
         fontSize: 18,
     },
-    emojiSelectionContainer: {
+    selector: {
+        borderColor: '#007BC0',
+        borderWidth: 2,
+        marginLeft: 15,
         padding: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 100,
+    },
+    emojiSelectionContainer: {
+        // padding: 8,
         marginTop: 10,
         height: 50,
         width: '80%',
         borderColor: '#007BC0',
-        borderRadius: 30,
+        borderRadius: 18,
+        // borderTopLeftRadius: 18,
+        // borderTopRightRadius: 18,
+        
         borderWidth: 2,
+        flexDirection: 'row',
+        alignItems: 'center',
+        // backgroundColor:'blue',
 
     },
     emojiContainerText:{
         fontFamily: 'Poppins_400Regular',
         fontSize: 20,
+        marginLeft: 15, 
     },
     bottomContainer: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#007BC0',
         borderTopLeftRadius: 10,
@@ -179,7 +258,8 @@ const styles = StyleSheet.create({
 
     },
     CheckinText: {
-        fontSize: 40,
+        marginTop: 100,
+        fontSize: 30,
         fontFamily: 'Poppins_400Regular',
         color: 'black',
     },
@@ -338,14 +418,12 @@ const styles = StyleSheet.create({
     Mood: {
         width: 25,
         height: 25,
-
     },
     CheckInText: {
         flex: 1,
         justifyContent: 'space-evenly',
         marginHorizontal: 16,
         flexDirection: 'column',
-
     },
     CheckInTitle: {
         marginBottom: 4,
@@ -354,14 +432,6 @@ const styles = StyleSheet.create({
     CheckInDescription: {
         color: 'gray',
     },
-    optionsContainer: {
-        position: 'absolute',
-        bottom: 80,
-      },
-      optionsRow: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-      },
+    
 
 });

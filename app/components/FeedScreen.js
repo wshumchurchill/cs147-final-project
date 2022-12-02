@@ -5,9 +5,15 @@ import Images from '../../assets/Images';
 import SelectDropdown from 'react-native-select-dropdown'
 import {useState, useEffect, useRef} from 'react';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { supabase } from '../../supabase';
+import { useIsFocused } from '@react-navigation/native'
 import { FloatingAction } from "react-native-floating-action";
 
 export default function FeedScreen({ navigation }) {
+    const isFocused = useIsFocused()
+
+    const [checkIns, setCheckIns] = useState([])
+
     
     const CheckIns = [
         {
@@ -57,6 +63,21 @@ export default function FeedScreen({ navigation }) {
         }
     ;
 
+    const imageMap = {
+        san_francisco: Images.sanFrancisco,
+        lake_louise: Images.lakeLouise,
+        alesund: Images.alesund,
+        dog: Images.dog
+    }
+
+    const moodMap = {
+        sad: Images.sad,
+        smile: Images.Smile,
+        anger: Images.Anger,
+        check: Images.check,
+        flat: Images.flat
+    }
+
     const [groups, setGroups] = useState([]);
     useEffect(() => {
         setTimeout(() => {
@@ -67,6 +88,16 @@ export default function FeedScreen({ navigation }) {
             ]);
         }, 1000);
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const {data, error} = await supabase.from('check-ins').select()
+            console.log('data', data)
+            setCheckIns(data)
+        }
+
+        fetchData();
+    }, [isFocused])
 
 
     // const Groups = [
@@ -82,23 +113,26 @@ export default function FeedScreen({ navigation }) {
     //     }
     // ];
 
-    const renderCheckIn = ({ item }) => (
-        <View style={styles.CheckInContainer}>
+    const renderCheckIn = ({ item }) => {
+
+
+       return  <View style={styles.CheckInContainer}>
             <Pressable onPress={() => navigation.navigate('CheckInDetails', { CheckIn: item})} style={{flexDirection: 'row'}}>
                 <View style={styles.CheckInText}>
                     <View style={styles.CheckInTitle}>
                         <Text style={styles.CheckInTitleText}>{item.user}</Text>
-                        <Image style={styles.Mood} source={item.mood} />
+                        <Image style={styles.Mood} source={moodMap[item.mood]} />
                     </View>
                     <Text style={styles.CheckInDescription}>{item.time}</Text>
                     <Text style={styles.CheckInDescription}>{item.location}</Text>
                 </View>
-                <Image style={styles.CheckInImage} source={item.image} />
+                <Image style={styles.CheckInImage} source={imageMap[item.image]} />
             </Pressable>
         </View>
-    );
+    };
 
     //pressable for Profile Tabs doesn't work
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -137,13 +171,13 @@ export default function FeedScreen({ navigation }) {
             
             <View style={styles.listContainer}>
                 <FlatList
-                    data={CheckIns}
+                    data={checkIns}
                     renderItem={renderCheckIn}
                     keyExtractor={(item) => item.id}
                 />
             </View>
             <View style={styles.FloatingButton}>
-                <Pressable onPress={() => navigation.navigate('CheckinTab', {Profiles: Profile})}>
+                <Pressable onPress={() => navigation.navigate('CheckInScreen')}>
                     <Image style={styles.CheckImage} source={Images.check} />
                 </Pressable>
             </View>

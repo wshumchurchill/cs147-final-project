@@ -3,14 +3,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function EmojiPicker({ isVisible, children, onClose }) {
   return (
-    <Modal animationType="slide" transparent={true} visible={isVisible}>
+    <Modal animationType="none" transparent={true} visible={isVisible}>
       <View style={styles.modalContent}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Choose a sticker</Text>
-          <Pressable onPress={onClose}>
-            <MaterialIcons name="close" color="#fff" size={22} />
-          </Pressable>
-        </View>
         {children}
       </View>
     </Modal>
@@ -19,26 +13,38 @@ export default function EmojiPicker({ isVisible, children, onClose }) {
 
 const styles = StyleSheet.create({
   modalContent: {
-    height: '25%',
-    width: '100%',
-    backgroundColor: '#25292e',
-    borderTopRightRadius: 18,
-    borderTopLeftRadius: 18,
+    height: 100,
+    width: '78.85%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderColor: '#007BC0',
+    borderWidth: 2,
+    borderRadius: 18,
+    // borderBottomLeftRadius: 18,
+    // borderBottomRightRadius: 18,
     position: 'absolute',
-    bottom: 0,
+    bottom: 252,
+    
+    left: 44,
+
   },
   titleContainer: {
-    height: '16%',
-    backgroundColor: '#464C55',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    height: '30%',
+    width: '100%',
+    backgroundColor: 'white',
+    // borderColor: 'black',
+    // borderWidth: 2,
+    // borderTopRightRadius: 10,
+    // borderTopLeftRadius: 10,
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   title: {
-    color: '#fff',
+    color: 'black',
     fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
   },
 });

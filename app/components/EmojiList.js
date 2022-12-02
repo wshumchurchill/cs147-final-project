@@ -24,7 +24,7 @@ export default function EmojiList({ onSelect, onCloseModal }) {
               onSelect(item);
               onCloseModal();
             }}>
-            <Image source={item} key={index} style={styles.image} />
+            <Image source={item} style={styles.image} />
           </Pressable>
         );
       }}
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 45,
+    height: 45,
     marginRight: 20,
   },
 });

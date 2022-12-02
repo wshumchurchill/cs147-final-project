@@ -19,15 +19,15 @@ export default function HomeStack() {
             }}>
             <Stack.Screen name="FeedScreen" component={FeedScreen} />
             <Stack.Screen name="CheckInDetails" component={CheckInDetails}
-                options={{
-                    ...TransitionPresets.ModalPresentationIOS,
-                  }}    
+                // options={{
+                //     ...TransitionPresets.ModalPresentationIOS,
+                //   }}    
             />
-            <Stack.Screen name="CheckinTab" component={CheckinTab} />
+            {/* <Stack.Screen name="CheckinTab" component={CheckinTab} /> */}
             <Stack.Screen name="ProfileTab" component={ProfileTab} 
-                options={{
-                    ...TransitionPresets.ModalPresentationIOS,
-                }}
+                // options={{
+                //     ...TransitionPresets.ModalPresentationIOS,
+                // }}
             />
             
             

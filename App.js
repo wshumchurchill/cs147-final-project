@@ -29,6 +29,7 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
+import ProfileTab from './app/components/ProfileTab';
 
 // function HomeScreen() {
 // }
@@ -74,11 +75,6 @@ export default function App() {
     </View>
   );
   
-  const ProfileTab = () => (
-    <View style={styles.container}>
-      <Text>Profile!</Text>
-    </View>
-  );
 
   // const CheckinTab = () => (
   //   <View style={styles.container}>
@@ -117,7 +113,18 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="CheckInScreen" component={CheckInScreen} />
         <Tab.Screen name="Groups" component={GroupsTab} />
-        <Tab.Screen name="Profile" component={ProfileTab} />
+        <Tab.Screen name="Profile" component={ProfileTab} initialParams={{Profiles:
+        {
+          id: 1,
+          image: Images.temp_profile,
+          group1: Images.dog,
+          group2: Images.cat,
+          strongest1:'family', 
+          strongest2: 'close friends',
+          numofcheckins: '1000',
+          name: 'Karson',
+        }
+    }} />
       </Tab.Navigator>
     </NavigationContainer>
   );

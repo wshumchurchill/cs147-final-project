@@ -1,8 +1,9 @@
-import { View, Image } from 'react-native';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import { View, Image, StyleSheet } from 'react-native';
 
 export default function EmojiSticker({ imageSize, stickerSource }) {
   return (
-    <View style={{ top: -350 }}>
+    <View style={styles.stickerContainer}>
       <Image
         source={stickerSource}
         resizeMode="contain"
@@ -11,3 +12,11 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    stickerContainer: {
+      top: 0,
+       
+    },
+  });
+
