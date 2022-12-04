@@ -3,15 +3,16 @@ import { View, Image, StyleSheet } from 'react-native';
 import Images from '../../assets/Images';
 
 const typeNumberMap = {
-    54: require('../../assets/Images/TriviaCorrect.png'),
-    55: require('../../assets/Images/KarsonPhoto.png'),
-    56: require('../../assets/Images/checkinmain.png')
+    55: require('../../assets/Images/TriviaCorrect.png'),
+    56: require('../../assets/Images/KarsonPhoto.png'),
+    57: require('../../assets/Images/checkinmain.png')
 }
 
 export default function CheckInTypeSticker({ stickerSource, stickerStyle }) {
+    console.log("stickerSource", stickerSource)
     return (
-        <Image
-            source={stickerSource}
+    <Image
+            source={typeNumberMap[stickerSource]}
             resizeMode="contain"
             style={stickerStyle}
         />

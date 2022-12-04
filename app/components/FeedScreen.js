@@ -15,40 +15,40 @@ export default function FeedScreen({ navigation }) {
     const [checkIns, setCheckIns] = useState([])
 
     
-    const CheckIns = [
-        {
-          id: 1,
-          image: Images.lakeLouise,
-          user: 'Scoob',
-          mood: Images.sad,
-          time: '4:35 PM',
-          location: 'Lake Louise'
-        },
-        { 
-          id: 2,
-          image: Images.sanFrancisco,
-          user: 'Jeff',
-          mood: Images.Smile,
-          time: '4:35 PM',
-          location: 'San Francisco'
-        },
-        { 
-          id: 3,
-          image: Images.alesund,
-          user: 'Waldo',
-          mood: Images.Anger,
-          time: '4:35 PM',
-          location: 'Alesund',
-        },
-        { 
-            id: 4,
-            image: Images.dog,
-            user: 'Winnie',
-            mood: Images.Smile,
-            time: '4:35 PM',
-            location: 'Palo Alto',
-        },
-    ];
+    // const CheckIns = [
+    //     {
+    //       id: 1,
+    //       image: Images.lakeLouise,
+    //       user: 'Scoob',
+    //       mood: Images.sad,
+    //       time: '4:35 PM',
+    //       location: 'Lake Louise'
+    //     },
+    //     { 
+    //       id: 2,
+    //       image: Images.sanFrancisco,
+    //       user: 'Jeff',
+    //       mood: Images.Smile,
+    //       time: '4:35 PM',
+    //       location: 'San Francisco'
+    //     },
+    //     { 
+    //       id: 3,
+    //       image: Images.alesund,
+    //       user: 'Waldo',
+    //       mood: Images.Anger,
+    //       time: '4:35 PM',
+    //       location: 'Alesund',
+    //     },
+    //     { 
+    //         id: 4,
+    //         image: Images.dog,
+    //         user: 'Winnie',
+    //         mood: Images.Smile,
+    //         time: '4:35 PM',
+    //         location: 'Palo Alto',
+    //     },
+    // ];
 
     const Profile = 
         {
@@ -56,8 +56,8 @@ export default function FeedScreen({ navigation }) {
           image: Images.temp_profile,
           group1: Images.dog,
           group2: Images.cat,
-          strongest1:'family', 
-          strongest2: 'close friends',
+          strongest1:'Family', 
+          strongest2: 'Close Friends',
           numofcheckins: '1000',
           name: 'Karson',
         }
@@ -93,11 +93,20 @@ export default function FeedScreen({ navigation }) {
         }, 1000);
     }, []);
 
+    const [selectableGroups, setSelectableGroups] = useState([])
+
     useEffect(() => {
         const fetchData = async () => {
             const {data, error} = await supabase.from('check-ins').select().order('created_at',{ascending: false})
-            console.log('data', data)
             setCheckIns(data)
+            const {data: groupsData} = await supabase.from('groups').select()
+            const {data: otherGroupsData} = await supabase.from('othergroups').select()
+
+            const groups = [...groupsData, ...otherGroupsData].map((group) => {
+                return {title: group.groupname}
+            })
+
+            setSelectableGroups(groups)
         }
 
         fetchData();
@@ -118,7 +127,7 @@ export default function FeedScreen({ navigation }) {
     // ];
 
     const renderCheckIn = ({ item }) => {
-
+        
 
        return  <View style={styles.CheckInContainer}>
             <Pressable onPress={() => navigation.navigate('CheckInDetails', { CheckIn: item})} style={{flexDirection: 'row'}}>
@@ -137,15 +146,16 @@ export default function FeedScreen({ navigation }) {
 
     //pressable for Profile Tabs doesn't work
 
-
+    const [selectedGroup, setSelectedGroup] = useState("Family")
+    // console.log(Profiles)
     return (
         <SafeAreaView style={styles.container}>
             <LinearGradient colors={['#D3FCFF', 'white']} style={styles.linearGradient}>
                 <View style={styles.TopContainer}>
                     <SelectDropdown
-                        data={groups}
+                        data={selectableGroups}
                         onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index);
+                            setSelectedGroup(selectedItem.title)
                         }}
                         defaultButtonText={'Family'}
                         buttonTextAfterSelection={(selectedItem, index) => {
@@ -165,8 +175,8 @@ export default function FeedScreen({ navigation }) {
                         rowTextStyle={styles.DropdownRowTxtStyle}
                     />
                     <View style={styles.divider} />
-
-                    <Pressable onPress={() => navigation.navigate('ProfileTab', {Profiles: Profile})}>
+                    
+                    <Pressable onPress={() => navigation.navigate('Profile', {Profiles: Profile})}>
                         <Image style={styles.ProfileImage} source={Images.temp_profile} />
                     </Pressable>
 
@@ -175,7 +185,7 @@ export default function FeedScreen({ navigation }) {
             
             <View style={styles.listContainer}>
                 <FlatList
-                    data={checkIns}
+                    data={checkIns.filter((checkIn) => checkIn.groupname === selectedGroup)}
                     renderItem={renderCheckIn}
                     keyExtractor={(item) => item.id}
                     

@@ -17,5 +17,8 @@ export default Images = {
   checkindefault: require('./checkinmain.png'),
   karsonphoto: require('./KarsonPhoto.png'),
   triviacorrect: require('./TriviaCorrect.png'),
-  
+  trashimage: require('./trashimage.png'),
+  largeKarson: require('./LargeKarsonPhoto.png'),
+  camerabutton: require('./CameraButton.png'),
+
 };

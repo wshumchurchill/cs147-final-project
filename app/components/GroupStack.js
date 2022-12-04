@@ -12,7 +12,7 @@ import GroupCreationScreen from './GroupCreationScreen';
 import ViewGroupDetails from './ViewGroupDetails';
 
 
-export default function HomeStack() {
+export default function GroupStack() {
     const Stack = createStackNavigator();
 
     
@@ -32,9 +32,9 @@ export default function HomeStack() {
             />
             <Stack.Screen name="ViewGroupDetails" component={ViewGroupDetails} 
             />
-            {/* <Stack.Screen name="OtherGroupsDetailsView" component={OtherGroupsDetailsView} 
+            <Stack.Screen name="OtherGroupsDetailsView" component={OtherGroupsDetailsView} 
             />
-             */}
+             
             
         </Stack.Navigator>
     );

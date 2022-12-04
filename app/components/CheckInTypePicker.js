@@ -8,7 +8,7 @@ export default function CheckInTypePicker({ isVisible, children, onClose }) {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Customize My Check In</Text>
           <Pressable onPress={onClose}>
-            <MaterialIcons name="close" color="black" size={22} />
+            <MaterialIcons name="close" color="black" size={30} />
           </Pressable>
         </View>
         {children}
@@ -19,9 +19,9 @@ export default function CheckInTypePicker({ isVisible, children, onClose }) {
 
 const styles = StyleSheet.create({
   modalContent: {
-    height: '20%',
-    width: '80%',
-    marginLeft: '10%',
+    height: '75%',
+    width: '98%',
+    marginLeft: '1%',
     
     // borderTopWidth: 1,
     // borderLeftWidth: 1,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   titleContainer: {
-    height: '16%',
+    height: '8%',
     backgroundColor: 'white',
     // borderTopWidth: 1,
     // borderLeftWidth: 1,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    fontSize: 20,
+    fontFamily: 'Poppins_700Bold',
   },
 });

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import Images from '../../assets/Images';
@@ -20,55 +20,29 @@ import Checkbox from 'expo-checkbox';
 //     24: 'angry',
 //     28: 'check'
 // }
-const NAMES = [
-    "Alex",
-    "Jessica",
-    "Sarah",
-    "Julia",
-    "Robert",
-    "Dylan",
-    "Anthony",
-    "Taylor",
-    "James",
-    "Scoob",
-    "Jeff",
-    "Dad",
-    "Mom",
-    "Karson",
-    "Jason",
-]
 
-export default function GroupCreationScreen({ navigation }) {
+export default function CustomizeActivity({ navigation }) {
 
     const isFocused = useIsFocused()
 
     // const [groups, setGroups] = useState([])
-    // const uploadData = async () => {
-    //     const { error } = await supabase
-    //         .from('groups')
-    //         .update({ friends: Array.from(checkedFriends) })
-    //         .eq('groupname', Group.groupname)
-    //     navigation.navigate('MyGroupsScreen')
-    //     console.log('error', error)
-    // }
 
-    const uploadData = async () => {
-        const { error } = await supabase.from('groups').insert({
-            id: Math.floor(Math.random() * 10000),
-            groupname: (text),
-            friend1: (isChecked ? 'Alex' : null),
-            friend2: (isChecked2 ? 'Jessica' : null),
-            friend3: (isChecked3 ? 'Sarah' : null),
-            friend4: (isChecked4 ? 'Robert' : null),
-            friend5: (isChecked5 ? 'Dylan' : null),
-            friend6: (isChecked6 ? 'Julia' : null),
-            friend7: (isChecked7 ? 'Taylor' : null),
-            friend8: (isChecked8 ? 'James' : null),
-            friends: Array.from(checkedFriends)
-        })
-        console.log('hello')
-        navigation.navigate('MyGroupsScreen')
-    }
+    // const uploadData = async () => {
+    //     const {error} = await supabase.from('groups').insert({
+    //         id: Math.floor(Math.random() * 10000), 
+    //         groupname: (text),
+    //         friend1: (isChecked ? 'Alex' :null),
+    //         friend2: (isChecked2 ? 'Jessica':null),
+    //         friend3: (isChecked3 ? 'Sarah':null),
+    //         friend4: (isChecked4 ? 'Robert':null),
+    //         friend5: (isChecked5 ? 'Dylan':null),
+    //         friend6: (isChecked6 ? 'Julia':null),
+    //         friend7: (isChecked7 ? 'Taylor':null),
+    //         friend8: (isChecked8 ? 'James': null),
+    //     })
+    //     console.log('hello')
+    //     navigation.navigate('MyGroupsScreen')
+    // }
 
     const [isChecked, setChecked] = useState(false);
     const [isChecked2, setChecked2] = useState(false);
@@ -80,9 +54,7 @@ export default function GroupCreationScreen({ navigation }) {
     const [isChecked8, setChecked8] = useState(false);
 
 
-    const [text, onChangeText] = useState("Insert Group Name...");
-
-    const [checkedFriends, setCheckedFriends] = useState(new Set())
+    const [text, onChangeText] = useState("1");
 
     return (
         <SafeAreaView style={styles.container}>
@@ -92,57 +64,35 @@ export default function GroupCreationScreen({ navigation }) {
                         <AntDesign name="left" size={30} color="black" />
                     </Pressable>
                     <View style={styles.TitleContainer}>
-                        <TextInput
-                            style={styles.groupinput}
-                            onChangeText={onChangeText}
-                            value={text}
-                        />
+                        <Text style={styles.groupinput}>
+                            Trivia
+                        </Text>
                     </View>
                 </View>
             </LinearGradient>
 
             <View style={styles.listContainer}>
                 <View style={styles.section}>
-                    <Text style={styles.choosemembers}>Choose Members</Text>
+                    <Text style={styles.QuestionText}>How Many Questions?</Text>
                 </View>
-                <ScrollView scr>
-                {NAMES.map((name) => {
-                    return <View style={styles.section}>
-                    {/* <Checkbox
-                        style={styles.checkbox}
-                        value={isChecked}
-                        onValueChange={setChecked}
-                        color={isChecked ? 'black' : undefined}
-                    /> */}
-                    <Checkbox
-                        style={styles.checkbox}
-                        value={checkedFriends.has(name)}
-                        onValueChange={(checked) => {
-                            if (checked) {
-                                const newCheckedFriends = new Set(checkedFriends)
-                                newCheckedFriends.add(name)
-                                setCheckedFriends(newCheckedFriends)
-                            } else {
-                                const newCheckedFriends = new Set(checkedFriends)
-                                newCheckedFriends.delete(name)
-                                setCheckedFriends(newCheckedFriends)
-                            }
-                        }}
-                        color={checkedFriends.has(name) ? 'black' : undefined}
+                <View style={styles.section}>
+                    <TextInput
+                        style={styles.QuestionInput}
+                        onChangeText={onChangeText}
+                        value={text}
                     />
-                    <Text style={styles.paragraph}>{name}</Text>
-                        </View>
-                })}
-                </ScrollView>
-
-                {/* <View style={styles.section}>
+                </View>
+                <View style={styles.section}>
+                    <Text style={styles.QuestionText}>Difficulty Level</Text>
+                </View>
+                <View style={styles.section}>
                     <Checkbox
                         style={styles.checkbox}
                         value={isChecked}
                         onValueChange={setChecked}
                         color={isChecked ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Alex</Text>
+                    <Text style={styles.paragraph}>Easy</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -151,7 +101,7 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked2}
                         color={isChecked2 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Jessica</Text>
+                    <Text style={styles.paragraph}>Medium</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -160,7 +110,10 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked3}
                         color={isChecked3 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Sarah</Text>
+                    <Text style={styles.paragraph}>Hard</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text style={styles.QuestionText}>Category Selection</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -169,7 +122,7 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked4}
                         color={isChecked4 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Robert</Text>
+                    <Text style={styles.paragraph}>History</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -178,7 +131,7 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked5}
                         color={isChecked5 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Dylan</Text>
+                    <Text style={styles.paragraph}>Economics</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -187,7 +140,7 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked6}
                         color={isChecked6 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Julia</Text>
+                    <Text style={styles.paragraph}>Sports</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -196,7 +149,7 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked7}
                         color={isChecked7 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Taylor</Text>
+                    <Text style={styles.paragraph}>Arts</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -205,13 +158,16 @@ export default function GroupCreationScreen({ navigation }) {
                         onValueChange={setChecked8}
                         color={isChecked8 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>James</Text>
-                </View> */}
+                    <Text style={styles.paragraph}>Random</Text>
+                </View>
             </View>
 
             <View style={styles.FloatingButton}>
-                <Pressable onPress={uploadData}>
-                    <Text style={styles.QuestionText}>Create Group</Text>
+                <Pressable onPress={() => navigation.navigate('PlayActivity')}>
+
+                    <Text style={styles.QuestionText}>Play Trivia</Text>
+
+                    {/* <Image style={styles.CheckImage} source={Images.check} /> */}
                 </Pressable>
             </View>
 
@@ -220,6 +176,20 @@ export default function GroupCreationScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    QuestionInput: {
+        borderWidth: 1,
+        borderColor: '#B0E2FF',
+        paddingLeft: 10,
+        borderRadius: 10,
+        // height: 60,
+        height: 40,
+        width: 100,
+        fontSize: 20,
+        marginLeft: 10,
+        fontFamily: 'Poppins_700Bold',
+        color: 'black',
+        backgroundColor: '#B0E2FF',
+    },
     QuestionText: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 20,
@@ -246,7 +216,10 @@ const styles = StyleSheet.create({
         top: 8.8,
         height: 60,
         width: 350,
-        backgroundColor: 'transparent',
+        // backgroundColor: '#C3B5D9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
 
     },
     TitleText: {
@@ -279,10 +252,10 @@ const styles = StyleSheet.create({
     },
     FloatingButton: {
         position: 'absolute',
-        bottom: 25,
+        bottom: 50,
         height: 57,
         width: 300,
-        alignItems: 'center',
+        alignItems:'center',
         justifyContent: 'center',
         backgroundColor: '#B0E2FF',
         // opacity: 0.6,
@@ -291,10 +264,12 @@ const styles = StyleSheet.create({
         borderRadius: 18,
     },
     groupinput: {
-        borderWidth: 1,
-        borderColor: '#2DA8EE',
-        borderRadius: 10,
-        // height: 60,
+        // borderWidth: 1,
+        // borderColor: '#2DA8EE',
+        // borderRadius: 10,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
         width: 350,
         fontSize: 30,
         paddingLeft: 10,
@@ -307,22 +282,19 @@ const styles = StyleSheet.create({
         height: 40,
         // flex: 1,
         marginLeft: 65,
-        margin: 10,
+        margin: 5,
         flexDirection: 'row',
         // paddingRight: 10,
         alignItems: 'center',
-        // justifyContent: 'center',d
+        // justifyContent: 'center',
         // backgroundColor: 'red',
-    },
-    choosemembers :{
-        fontFamily: 'Poppins_700Bold',
-        fontSize: 25,
     },
     paragraph: {
         fontFamily: 'Poppins_400Regular',
         fontSize: 20,
     },
     checkbox: {
+        marginLeft: 10,
         marginRight: 10,
         height: 40,
         width: 40,

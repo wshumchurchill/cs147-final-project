@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import Images from '../../assets/Images';
@@ -15,29 +15,70 @@ export default function OtherGroupsScreen({ navigation }) {
     const isFocused = useIsFocused()
 
     const [groups, setGroups] = useState([])
+    const [grouptoRemove, setGrouptoRemove] = useState(null)
+    // const [refresher, setRefresher] = useState(["refreshed", true]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const {data, error} = await supabase.from('groups').select()
+            const {data, error} = await supabase.from('othergroups').select()
             console.log('data', data)
             setGroups(data)
         }
 
         fetchData();
     }, [isFocused])
+
+    
+    const deleteGroup = async () => {
+        // console.log(grouptoRemove)
+        const {data, error} = await supabase.from('othergroups').delete().eq('groupname', grouptoRemove)
+        // console.log()
+        // console.log(pickedType)
+        // console.log(grouptoRemove)
+        
+        navigation.navigate('GroupManagementScreen')
+    }
+    // deleteGroup();
+    
+
+    const showConfirmDelete = ({item}) => {
+        // console.log(item)
+        // console.log(grouptoRemove)
+        return Alert.alert(
+            "Confirm Delete Group",
+            `Are you sure you want to delete ${grouptoRemove}`,
+            [
+                {
+                    text: "Cancel",
+                },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        deleteGroup();
+                    },
+                },
+            ]
+        );
+    };
     
 
     const renderGroup = ({ item }) => {
-
+        console.log(item)
         return  <View style={styles.GroupContainer}>
-             <Pressable onPress={() => navigation.navigate('GroupCreationScreen', { Group: item})} style={{flexDirection: 'row'}}>
+             <Pressable onPress={() => navigation.navigate('OtherGroupsDetailsView', { Group: item})} style={{flexDirection: 'row'}}>
                 <Text style={styles.GroupTitleText}>{item.groupname}</Text>
              </Pressable>
+             
+             <Pressable onPressIn={() => {setGrouptoRemove(item.groupname);}}
+                onPress={() => {
+                    // setGrouptoRemove(item.groupname);
+                    showConfirmDelete(item); 
+                    }}>
+                <Image style={styles.DeleteImage} source={Images.trashimage} />
+            </Pressable>
+             
          </View>
     };
-
-    
-
     
     return (
         <SafeAreaView style={styles.container}>
@@ -54,22 +95,27 @@ export default function OtherGroupsScreen({ navigation }) {
             
             <View style={styles.listContainer}>
                 <FlatList
+                    
                     data={groups}
                     renderItem={renderGroup}
                     keyExtractor={(item) => item.id}
                 />
             </View>
-            <View style={styles.FloatingButton}>
+            {/* <View style={styles.FloatingButton}>
                 <Pressable onPress={() => navigation.navigate('GroupCreationScreen')}>
                     <AntDesign name="pluscircleo" size={57} color="black" />
                 </Pressable>
-            </View>
+            </View> */}
             
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    DeleteImage: {
+        height: 50,
+        width: 50,
+    },
     GroupContainer: {
         width: 380,
         height: 90,
@@ -87,7 +133,9 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 5,
         padding: 18,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
 
 
     },
