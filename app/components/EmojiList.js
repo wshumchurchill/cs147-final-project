@@ -17,7 +17,7 @@ export default function EmojiList({ onSelect, onCloseModal }) {
       showsHorizontalScrollIndicator={Platform.OS === 'web' ? true : false}
       data={emoji}
       contentContainerStyle={styles.listContainer}
-      keyExtractor={({index}) => index}
+      keyExtractor={(item, index) => index}
       renderItem={({ item, index }) => {
         return (
           <Pressable

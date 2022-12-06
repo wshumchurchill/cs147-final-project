@@ -129,7 +129,7 @@ export default function OtherGroupDetailsView({ navigation, route }) {
                 <FlatList
                     data={NAMES}
                     renderItem={renderFriendname}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item, index) => index}
                 />
             </View>
 
