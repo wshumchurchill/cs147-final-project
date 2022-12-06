@@ -106,8 +106,8 @@ export default function GroupCreationScreen({ navigation }) {
                     <Text style={styles.choosemembers}>Choose Members</Text>
                 </View>
                 <ScrollView scr>
-                {NAMES.map((name) => {
-                    return <View style={styles.section}>
+                {NAMES.map((name, index) => {
+                    return <View style={styles.section} key={index}>
                     {/* <Checkbox
                         style={styles.checkbox}
                         value={isChecked}

@@ -106,9 +106,9 @@ export default function PlayActivity({ navigation }) {
                 <View style={styles.section}>
                     <Checkbox
                         style={styles.checkbox}
-                        value={isChecked3}
-                        onValueChange={setChecked3}
-                        color={isChecked3 ? 'black' : undefined}
+                        value={isChecked4}
+                        onValueChange={setChecked4}
+                        color={isChecked4 ? 'black' : undefined}
                     />
                     <Text style={styles.paragraph}>Chicken</Text>
                 </View>
@@ -118,20 +118,11 @@ export default function PlayActivity({ navigation }) {
                 <View style={styles.section}>
                     <Checkbox
                         style={styles.checkbox}
-                        value={isChecked4}
-                        onValueChange={setChecked4}
-                        color={isChecked4 ? 'black' : undefined}
-                    />
-                    <Text style={styles.paragraph}>Five</Text>
-                </View>
-                <View style={styles.section}>
-                    <Checkbox
-                        style={styles.checkbox}
                         value={isChecked5}
                         onValueChange={setChecked5}
                         color={isChecked5 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Seven</Text>
+                    <Text style={styles.paragraph}>Five</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -140,7 +131,7 @@ export default function PlayActivity({ navigation }) {
                         onValueChange={setChecked6}
                         color={isChecked6 ? 'black' : undefined}
                     />
-                    <Text style={styles.paragraph}>Nine</Text>
+                    <Text style={styles.paragraph}>Seven</Text>
                 </View>
                 <View style={styles.section}>
                     <Checkbox
@@ -148,6 +139,15 @@ export default function PlayActivity({ navigation }) {
                         value={isChecked7}
                         onValueChange={setChecked7}
                         color={isChecked7 ? 'black' : undefined}
+                    />
+                    <Text style={styles.paragraph}>Nine</Text>
+                </View>
+                <View style={styles.section}>
+                    <Checkbox
+                        style={styles.checkbox}
+                        value={isChecked8}
+                        onValueChange={setChecked8}
+                        color={isChecked8 ? 'black' : undefined}
                     />
                     <Text style={styles.paragraph}>Twenty</Text>
                 </View>
