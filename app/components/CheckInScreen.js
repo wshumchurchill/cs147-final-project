@@ -18,6 +18,8 @@ import CheckInTypePicker from './CheckInTypePicker';
 import CheckInTypeSticker from './CheckInTypeSticker';
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator } from 'react-native-web';
+import { useIsFocused } from '@react-navigation/native';
+
 
 
 const emojiNumberMap = {
@@ -39,13 +41,16 @@ export const typeImageMap ={
     57: 'defaultcheckin',
 }
 
+
+
 export default function CheckInScreen({navigation, route}) {
+    const isFocused = useIsFocused()
 
 
     // for emoji picker
     const [isModalVisible, setIsModalVisible] = useState(false);
     // const [showAppOptions, setShowAppOptions] = useState(false);
-    const [pickedEmoji, setPickedEmoji] = useState(null);
+    const [pickedEmoji, setPickedEmoji] = useState(29);
     // const [selectedImage, setSelectedImage] = useState(null);
 
     const [pickedType, setPickedType] = useState(null);
@@ -149,8 +154,10 @@ export default function CheckInScreen({navigation, route}) {
     console.log(uploadData)
     const uploadData = async () => {
         const {error} = await supabase.from('check-ins').insert({id: Math.floor(Math.random() * 10000), 
-            image: (pickedType !== null ? typeImageMap[pickedType] : typeImageMap[56]), 
-            user: 'Karson', mood: emojiNumberMap[pickedEmoji], time: '10:22 PM', 
+            image: (pickedType !== null ? typeImageMap[pickedType] : typeImageMap[57]), 
+            user: 'Karson', 
+            mood: emojiNumberMap[pickedEmoji],
+            time: '10:22 PM', 
             location: (isEnabled ? 'Stanford, California': ''),
             groupname: selectedGroup
         })
@@ -229,7 +236,7 @@ export default function CheckInScreen({navigation, route}) {
                         I'm feeling
                     </Text>
                     <View style={styles.selector}>
-                        {pickedEmoji !== null ? <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> : <Image style={styles.CheckImage} source={Images.flat}/>}
+                        {pickedEmoji !== 29 ? <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> : <Image style={styles.CheckImage} source={Images.flat}/>}
                         
                         <CircleButton onPress={onAddSticker} />
                     </View>

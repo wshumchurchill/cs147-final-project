@@ -55,7 +55,7 @@ export default function MainTab() {
                 headerShown: false,
             })}>
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="CheckInScreen" component={CheckInScreen} />
+            <Tab.Screen name="CheckInScreen" component={CheckInScreen} initialParams={{pickedType: null, emojiType: 29}}/>
             <Tab.Screen name="Groups" component={GroupStack} />
             <Tab.Screen name="Profile" component={ProfileTab} initialParams={{
                 Profiles:
