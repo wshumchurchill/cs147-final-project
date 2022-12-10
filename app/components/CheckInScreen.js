@@ -228,7 +228,7 @@ export default function CheckInScreen({navigation, route}) {
             <View style={styles.bottomContainer}>
                 <View style={styles.CheckinTextStyle}>
                     <Text style={styles.CheckinText}>
-                        Karson is checking in @ 9:41 am
+                        Karson is checking in @ 10:22 pm
                     </Text>
                 </View>
                 <View style={styles.emojiSelectionContainer}>
